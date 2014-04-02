@@ -25,6 +25,8 @@ import QtQuick.Layouts 1.0
 
 import ZcClient 1.0 as Zc
 
+import"./Delegates"
+
 import "Main.js" as Presenter
 
 
@@ -84,8 +86,13 @@ Zc.AppView
         if (isCurrentView == true)
         {
             appNotification.resetNotification();
-            //          inputMessageWidget.setFocus();
+            inputMessage.setFocus();
         }
+    }
+
+    Component.onCompleted:
+    {
+        inputMessage.setFocus();
     }
 
     Zc.CrowdActivity
@@ -172,26 +179,94 @@ Zc.AppView
 
         Item
         {
-            ListView
+            id : rightPanel
+
+            width : mainView.width / 3
+
+            ScrollView
             {
+                id : chatView
+
+                Component.onCompleted:
+                {
+                    chatView.flickableItem.contentY = height
+                }
+
+                function goToEnd()
+                {
+
+                    var cy = chatView.flickableItem.contentY > 0 ? chatView.flickableItem.contentY : 0
+                    var delta = chatView.flickableItem.contentHeight - (cy + chatView.flickableItem.height);
+
+                    if (delta <= 30)
+                    {
+                        chatView.flickableItem.contentY = Math.round(column.height - chatView.flickableItem.height);
+                    }
+
+                }
+
+
                 anchors.top: parent.top
                 anchors.left : parent.left
                 anchors.right: parent.right
-                anchors.bottom: parent.bottom
+
+                height: rightPanel.height - 65
+
+
+                clip: true
+
+                Column
+                {
+                    id : column
+
+
+                    onHeightChanged :
+                    {
+                        chatView.goToEnd();
+                    }
+
+                    spacing: 5
+
+                    Repeater
+                    {
+                        model : listenerChat.messages
+                        ChatDelegate
+                        {
+                            width : chatView.flickableItem.width - 5
+
+                            contactImageSource : activity.getParticipantImageUrl(from)
+                        }
+                    }
+                }
+
+        }
+
+        InputMessageWidget
+        {
+            id : inputMessage
+            height: 60;
+            anchors.left : parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            onAccepted:
+            {
+                senderChat.sendMessage(message)
             }
         }
 
     }
 
+}
 
 
-    onLoaded :
-    {
-        activity.start();
-    }
 
-    onClosed :
-    {
-        activity.stop();
-    }
+onLoaded :
+{
+    activity.start();
+}
+
+onClosed :
+{
+    activity.stop();
+}
 }

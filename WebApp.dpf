@@ -63,6 +63,8 @@
             <QtResourceFile FileName="home.png">
               <Properties>
                 <BuildAction value="Compile" />
+                <Locale value="" />
+                <Alias value="" />
               </Properties>
               <Items />
             </QtResourceFile>
@@ -77,7 +79,18 @@
           <Item Template="QtResourceProjectFolder">
             <QtResourceProjectFolder Name="Delegates">
               <Properties />
-              <Items />
+              <Items>
+                <Item Template="QtResourceFile">
+                  <QtResourceFile FileName="ChatDelegate.qml">
+                    <Properties>
+                      <BuildAction value="Compile" />
+                      <Locale value="" />
+                      <Alias value="" />
+                    </Properties>
+                    <Items />
+                  </QtResourceFile>
+                </Item>
+              </Items>
             </QtResourceProjectFolder>
           </Item>
           <Item Template="QtResourceFile">
@@ -116,6 +129,24 @@
                 <BuildAction value="Compile" />
                 <Locale value="" />
                 <Alias value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="InputMessageWidget.qml">
+              <Properties>
+                <BuildAction value="Compile" />
+                <Locale value="" />
+                <Alias value="" />
+              </Properties>
+              <Items />
+            </QtResourceFile>
+          </Item>
+          <Item Template="QtResourceFile">
+            <QtResourceFile FileName="Tools.js">
+              <Properties>
+                <BuildAction value="Compile" />
               </Properties>
               <Items />
             </QtResourceFile>
