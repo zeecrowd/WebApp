@@ -147,6 +147,8 @@
             <QtResourceFile FileName="Tools.js">
               <Properties>
                 <BuildAction value="Compile" />
+                <Locale value="" />
+                <Alias value="" />
               </Properties>
               <Items />
             </QtResourceFile>
@@ -163,6 +165,14 @@
           <CopyToOutputDirectory value="OnlyIfNewer" />
           <CustomTool value="" />
           <Locale value="" />
+        </Properties>
+        <Items />
+      </QtResourceFile>
+    </Item>
+    <Item Template="QtResourceFile">
+      <QtResourceFile FileName="WebApp.zeeapmanifest">
+        <Properties>
+          <BuildAction value="Compile" />
         </Properties>
         <Items />
       </QtResourceFile>
