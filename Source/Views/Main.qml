@@ -66,7 +66,7 @@ Zc.AppView
             tooltip : "Home url"
             onTriggered:
             {
-                web.url = mainUrl
+                web.setUrl(mainUrl)
             }
         }
     ]
@@ -104,6 +104,8 @@ Zc.AppView
         onStarted :
         {
             mainView.mainUrl = mainView.context.applicationConfiguration.getProperty("HomeUrl","www.zeecrowd.com");
+            console.log(">> mainUrl = " + mainView.mainUrl)
+            web.setUrl(mainView.mainUrl)
         }
 
         onContextChanged :
@@ -171,7 +173,12 @@ Zc.AppView
                 id : web
                 anchors.fill: parent
 
-                url : mainUrl
+                Component.onCompleted:
+                {
+                    console.log(">> set url " + mainUrl)
+                    setUrl(mainUrl);
+                }
+
             }
 
             Layout.fillWidth : true

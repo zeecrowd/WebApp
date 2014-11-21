@@ -20,7 +20,6 @@
 */
 
 import QtQuick 2.0
-import QtWebKit 3.0
 
 Item
 {
@@ -28,7 +27,19 @@ Item
 
     anchors.fill: parent
 
-    property alias url              : webViewId.url
+    function getUrl()
+    {
+        if (webViewId.item === null)
+            return "";
+        return webViewId.item.url
+    }
+
+    function setUrl(url)
+    {
+        if (webViewId.item !== null)
+           webViewId.item.url = url
+    }
+
     property alias webViewWidth     : webViewId.width
     property alias webViewHeight    : webViewId.height
 
@@ -55,7 +66,7 @@ Item
             id          : progressBarId
 
 
-            width : parent.width * webViewId.loadProgress / 100
+            width : webViewId.item === null ? 0 : parent.width * webViewId.item.loadProgress / 100
 
             color       : "red"
             anchors
@@ -68,7 +79,7 @@ Item
         }
     }
 
-    WebView
+    Loader
     {
         id : webViewId
 
@@ -77,6 +88,20 @@ Item
         anchors.bottom      : parent.bottom
         anchors.left        : parent.left
         anchors.right       : parent.right
+
+        Component.onCompleted:
+        {
+            if (Qt.platform.os === "osx")
+            {
+                source = "qrc:/WebApp/Views/WebView/WebView1.1.qml"
+            }
+            else
+            {
+                source = "qrc:/WebApp/Views/WebView/WebView3.0.qml"
+            }
+        }
+
+
     }
 }
 

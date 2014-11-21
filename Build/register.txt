@@ -1,0 +1,1 @@
+<x xmlns='jabber:x:data'><title>WebApp</title><instructions>WebApp</instructions><field var='HomeUrl'><value>http://</value></field></x>
