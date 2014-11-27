@@ -13,12 +13,12 @@ OTHER_FILES += \
     ../../Source/Views/Main.qml \
     ../../Source/Views/WebApplicationConfiguration.qml \
     ../../Source/Views/WebAppView.qml \
-    ../../Source/Views/WebView/WebView1.1.qml \
     ../../Source/Views/WebView/WebView3.0.qml \
     ../../Source/Views/Delegates/ChatDelegate.qml \
     ../../Source/Resources/close.png \
     ../../Source/Resources/home.png \
-    ../../Source/Packages/WebAppApplication.cfg
+    ../../Source/Packages/WebAppApplication.cfg \
+    ../../Source/Views/WebView/NoWebView.qml
    
 
 RESOURCES += \

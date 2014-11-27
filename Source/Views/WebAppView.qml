@@ -91,9 +91,9 @@ Item
 
         Component.onCompleted:
         {
-            if (Qt.platform.os === "osx")
+            if (!mainView.useWebView)
             {
-                source = "qrc:/WebApp/Views/WebView/WebView1.1.qml"
+                source = "qrc:/WebApp/Views/WebView/NoWebView.qml"
             }
             else
             {

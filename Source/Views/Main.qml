@@ -36,6 +36,7 @@ Zc.AppView
     id : mainView
 
     property string mainUrl : ""
+    property bool useWebView : false
 
     anchors
     {
@@ -271,6 +272,15 @@ Zc.AppView
 onLoaded :
 {
     activity.start();
+
+    if (Qt.platform === "windows")
+    {
+        mainView.useWebView = true
+    }
+    else
+    {
+        mainView.useWebView = mainView.context.getQtModuleVersion("QtWebKit") !== "";
+    }
 }
 
 onClosed :
