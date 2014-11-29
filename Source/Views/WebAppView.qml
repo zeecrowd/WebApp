@@ -36,6 +36,10 @@ Item
 
     function setUrl(url)
     {
+
+        if (!mainView.useWebView)
+            return;
+
         if (webViewId.item !== null)
            webViewId.item.url = url
     }
@@ -79,6 +83,22 @@ Item
         }
     }
 
+    property bool isInitialized : false;
+
+    function initialize()
+    {
+        if (!mainView.useWebView)
+        {
+            webViewId.source = "qrc:/WebApp/Views/WebView/NoWebView.qml"
+        }
+        else
+        {
+            webViewId.source = "qrc:/WebApp/Views/WebView/WebView3.0.qml"
+        }
+
+        isInitialized = true;
+    }
+
     Loader
     {
         id : webViewId
@@ -91,14 +111,7 @@ Item
 
         Component.onCompleted:
         {
-            if (!mainView.useWebView)
-            {
-                source = "qrc:/WebApp/Views/WebView/NoWebView.qml"
-            }
-            else
-            {
-                source = "qrc:/WebApp/Views/WebView/WebView3.0.qml"
-            }
+
         }
 
 

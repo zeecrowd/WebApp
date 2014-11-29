@@ -105,8 +105,8 @@ Zc.AppView
         onStarted :
         {
             mainView.mainUrl = mainView.context.applicationConfiguration.getProperty("HomeUrl","www.zeecrowd.com");
-            console.log(">> mainUrl = " + mainView.mainUrl)
-            web.setUrl(mainView.mainUrl)
+            if (web.isInitialized)
+                web.setUrl(mainView.mainUrl)
         }
 
         onContextChanged :
@@ -177,7 +177,7 @@ Zc.AppView
                 Component.onCompleted:
                 {
                     console.log(">> set url " + mainUrl)
-                    setUrl(mainUrl);
+                //    setUrl(mainUrl);
                 }
 
             }
@@ -273,7 +273,7 @@ onLoaded :
 {
     activity.start();
 
-    if (Qt.platform === "windows")
+    if (Qt.platform.os === "windows")
     {
         mainView.useWebView = true
     }
@@ -281,6 +281,9 @@ onLoaded :
     {
         mainView.useWebView = mainView.context.getQtModuleVersion("QtWebKit") !== "";
     }
+
+    web.initialize();
+    web.setUrl(mainUrl)
 }
 
 onClosed :
