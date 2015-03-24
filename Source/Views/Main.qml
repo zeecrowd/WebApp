@@ -37,6 +37,8 @@ Zc.AppView
 
     property string mainUrl : ""
     property bool useWebView : false
+    property Item webAppView: web
+
 
     anchors
     {

@@ -201,7 +201,7 @@ Rectangle
 
             onLinkActivated:
             {
-                web.url = textZone.url
+                mainView.webAppView.setUrl(textZone.url)
             }
         }
 

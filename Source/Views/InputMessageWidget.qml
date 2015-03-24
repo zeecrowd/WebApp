@@ -106,8 +106,6 @@ FocusScope
 
             font.pixelSize: 16
 
-//            textFormat: TextEdit.AutoText
-
             wrapMode: TextEdit.WrapAnywhere
 
             Keys.onPressed:
@@ -124,8 +122,7 @@ FocusScope
                         var o = {}
                         o.text = text
 
-
-                        o.viewUrl = web.url.toString();
+                        o.viewUrl = mainView.webAppView.getUrl().toString();
 
                         input.accepted(JSON.stringify(o));
                         text = "";
