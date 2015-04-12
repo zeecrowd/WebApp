@@ -10,7 +10,8 @@
         <file>Views/Tools.js</file>
         <file>Views/WebApplicationConfiguration.qml</file>
         <file>Views/WebAppView.qml</file>
-        <file>Views/WebView/WebView3.0.qml</file>
         <file>Views/WebView/NoWebView.qml</file>
+        <file>Views/WebView/WebKit3.0.qml</file>
+        <file>Views/WebView/WebView1.0.qml</file>
     </qresource>
 </RCC>

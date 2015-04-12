@@ -25,7 +25,27 @@ Item
 {
     id : rootId
 
+    width : 100
+    height : 100
+
     anchors.fill: parent
+
+    function showWebViewIfNecessary()
+    {
+        if (webViewId.item !== null && webViewId.item !== undefined)
+        {
+            webViewId.item.visible = true
+        }
+    }
+
+    function hideWebViewIfNecessary()
+    {
+        if (webViewId.item !== null && webViewId.item !== undefined)
+        {
+            webViewId.item.visible = false
+        }
+    }
+
 
     function getUrl()
     {
@@ -37,7 +57,7 @@ Item
     function setUrl(url)
     {
 
-        if (!mainView.useWebView)
+        if (mainView.useWebView === "")
             return;
 
         if (webViewId.item !== null)
@@ -87,13 +107,17 @@ Item
 
     function initialize()
     {
-        if (!mainView.useWebView)
+        if (mainView.useWebView === "")
         {
             webViewId.source = "qrc:/WebApp/Views/WebView/NoWebView.qml"
         }
-        else
+        else if (mainView.useWebView === "WebKit")
         {
-            webViewId.source = "qrc:/WebApp/Views/WebView/WebView3.0.qml"
+            webViewId.source = "qrc:/WebApp/Views/WebView/WebKit3.0.qml"
+        }
+        else if (mainView.useWebView === "WebView")
+        {
+            webViewId.source = "qrc:/WebApp/Views/WebView/WebView1.0.qml"
         }
 
         isInitialized = true;
@@ -103,18 +127,20 @@ Item
     {
         id : webViewId
 
+        width : 100
+        height : 100
+
         anchors.top         : progressBarContainerId.bottom
         anchors.topMargin   : 1
         anchors.bottom      : parent.bottom
         anchors.left        : parent.left
         anchors.right       : parent.right
 
-        Component.onCompleted:
+        onLoaded:
         {
-
+            item.parent = webViewId
+            item.anchors.fill = parent
         }
-
-
     }
 }
 

@@ -35,10 +35,12 @@ Zc.AppView
 {
     id : mainView
 
-    property string mainUrl : ""
-    property bool useWebView : false
-    property Item webAppView: web
+    width : 100
+    height : 100
 
+    property string mainUrl : ""
+    property string useWebView : ""
+    property Item webAppView: web
 
     anchors
     {
@@ -58,6 +60,7 @@ Zc.AppView
             tooltip : "Close Application"
             onTriggered:
             {
+                inputMessage.focus = false
                 mainView.close();
             }
         }
@@ -90,13 +93,24 @@ Zc.AppView
         if (isCurrentView == true)
         {
             appNotification.resetNotification();
-            inputMessage.setFocus();
+            web.showWebViewIfNecessary();
+
+            if (Qt.platform.os !== "android")
+                inputMessage.setFocus();
         }
+        else
+        {
+            web.hideWebViewIfNecessary();
+            if (Qt.platform.os === "android")
+                inputMessage.focus = false
+        }
+
     }
 
     Component.onCompleted:
     {
-        inputMessage.setFocus();
+        if (Qt.platform.os !== "android")
+                inputMessage.setFocus();
     }
 
     Zc.CrowdActivity
@@ -153,6 +167,9 @@ Zc.AppView
 
     SplitView
     {
+        width : 100
+        height : 100
+
         anchors.fill: parent
         orientation: Qt.Horizontal
 
@@ -170,29 +187,26 @@ Zc.AppView
 
         Item
         {
+             width : mainView.width * 2 / 3
 
             WebAppView
             {
                 id : web
+
+                width : 100
+                height : 100
                 anchors.fill: parent
-
-                Component.onCompleted:
-                {
-                    console.log(">> set url " + mainUrl)
-                //    setUrl(mainUrl);
-                }
-
             }
 
-            Layout.fillWidth : true
-            Layout.fillHeight : true
         }
 
         Item
         {
             id : rightPanel
 
-            width : mainView.width / 3
+
+            Layout.fillWidth : true
+            Layout.fillHeight : true
 
             ScrollView
             {
@@ -261,6 +275,7 @@ Zc.AppView
             anchors.bottom: parent.bottom
             onAccepted:
             {
+                inputMessage.focus = false
                 senderChat.sendMessage(message)
             }
         }
@@ -275,13 +290,23 @@ onLoaded :
 {
     activity.start();
 
+    var webViewVersion =  mainView.context.getQtModuleVersion("QtWebView") !== "";
+    var webKitVersion =  mainView.context.getQtModuleVersion("QtWebKit") !== "";
+    mainView.useWebView = "";
+
     if (Qt.platform.os === "windows")
     {
-        mainView.useWebView = true
+        if (webViewVersion !== null && webViewVersion !== undefined)
+            mainView.useWebView = "WebView"
+        else
+            mainView.useWebView = "WebKit"
     }
     else
     {
-        mainView.useWebView = mainView.context.getQtModuleVersion("QtWebKit") !== "";
+        if (webViewVersion !== null && webViewVersion !== undefined)
+            mainView.useWebView = "WebView"
+        else if (webKitVersion !== null && webKitVersion !== undefined)
+            mainView.useWebView = "WebKit"
     }
 
     web.initialize();
