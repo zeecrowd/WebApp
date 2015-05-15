@@ -20,6 +20,9 @@
 */
 
 import QtQuick 2.0
+import QtQuick.Layouts 1.1
+import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.1
 
 Item
 {
@@ -70,6 +73,79 @@ Item
     signal urlHasChanged();
 
 
+    ToolBar
+    {
+        height : 50
+        id : toolBar
+
+        anchors.top : parent.top
+
+        style: ToolBarStyle { }
+
+        RowLayout
+        {
+            ToolButton
+            {
+                height : 45
+                width : 45
+                implicitHeight : 45
+                implicitWidth : 45
+                style : ButtonStyle {}
+
+                action : Action
+                {
+                id : downloadAction
+                iconSource  : "qrc:/WebApp/Resources/back.png"
+                tooltip     : "Back"
+                enabled  : webViewId.item === null || webViewId.item === undefined ? false : webViewId.item.canGoBack
+                onTriggered :
+                {
+                    webViewId.item.goBack()
+                }
+            }
+        }
+        ToolButton
+        {
+            height : 45
+            width : 45
+            implicitHeight : 45
+            implicitWidth : 45
+            style : ButtonStyle {}
+            action : Action
+            {
+            id : toClopBoardAction
+            iconSource  : "qrc:/WebApp/Resources/next.png"
+            tooltip     : "Next"
+            enabled  : webViewId.item === null || webViewId.item === undefined  ? false : webViewId.item.canGoForward
+            onTriggered :
+            {
+                webViewId.item.goForward()
+            }
+        }
+    }
+
+    ToolButton
+    {
+        height : 45
+        width : 45
+        implicitHeight : 45
+        implicitWidth : 45
+        style : ButtonStyle {}
+        action : Action
+        {
+        id : openExternallyAction
+        iconSource  : "qrc:/WebApp/Resources/OpenExternal.png"
+        tooltip     : "Open in default browser"
+        onTriggered :
+        {
+            Qt.openUrlExternally(webViewId.item.url)
+        }
+    }
+}
+}
+}
+
+
     Rectangle
     {
         id          : progressBarContainerId
@@ -77,7 +153,7 @@ Item
         color : "black"
         anchors
         {
-            top     : parent.top
+            top     : toolBar.bottom
             right   : parent.right
             left    : parent.left
         }
@@ -102,6 +178,28 @@ Item
             height  : 3
         }
     }
+
+    TextField
+    {
+        style: TextFieldStyle{}
+
+        id: textFieldUrl
+        height : 20
+        anchors.left: parent.left
+       // anchors.leftMargin : 3
+        anchors.right: parent.right
+      //  anchors.rightMargin: 3
+        anchors.top: progressBarContainerId.bottom
+      //  anchors.topMargin: 3
+
+        text : webViewId.item === null || webViewId.item === undefined ? "" : webViewId.item.url
+
+        onAccepted:
+        {
+            mainView.setUrl(text)
+        }
+}
+
 
     property bool isInitialized : false;
 
@@ -130,7 +228,7 @@ Item
         width : 100
         height : 100
 
-        anchors.top         : progressBarContainerId.bottom
+        anchors.top         : textFieldUrl.bottom
         anchors.topMargin   : 1
         anchors.bottom      : parent.bottom
         anchors.left        : parent.left
@@ -139,7 +237,6 @@ Item
         onLoaded:
         {
             item.parent = webViewId
-            item.anchors.fill = parent
         }
     }
 }

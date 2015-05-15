@@ -296,16 +296,18 @@ onLoaded :
 
     if (Qt.platform.os === "windows")
     {
-        if (webViewVersion !== null && webViewVersion !== undefined)
+        if (webViewVersion)
             mainView.useWebView = "WebView"
         else
             mainView.useWebView = "WebKit"
     }
     else
     {
-        if (webViewVersion !== null && webViewVersion !== undefined)
+        if (webViewVersion)
+        {
             mainView.useWebView = "WebView"
-        else if (webKitVersion !== null && webKitVersion !== undefined)
+        }
+        else if (webKitVersion)
             mainView.useWebView = "WebKit"
     }
 

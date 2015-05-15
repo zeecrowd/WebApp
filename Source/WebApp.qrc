@@ -13,5 +13,8 @@
         <file>Views/WebView/NoWebView.qml</file>
         <file>Views/WebView/WebKit3.0.qml</file>
         <file>Views/WebView/WebView1.0.qml</file>
+        <file>Resources/back.png</file>
+        <file>Resources/next.png</file>
+        <file>Resources/OpenExternal.png</file>
     </qresource>
 </RCC>
