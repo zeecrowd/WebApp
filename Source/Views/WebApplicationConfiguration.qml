@@ -23,12 +23,19 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import ZcClient 1.0
 
-ZcAppConfigurationView
+Rectangle
 {
     width: 600
     height: 480
 
-    id : mainView
+    color : "lightgrey"
+
+    id : mainViewWebApp
+
+    signal validateUrl(string url);
+    signal cancel()
+
+    property alias homeUrl: homeUrl.text
 
     // Labels
     Column
@@ -63,8 +70,24 @@ ZcAppConfigurationView
 
         onClicked   :
         {
-            mainView.dataFormConfiguration.setFieldValue("HomeUrl",homeUrl.text);
-            mainView.ok();
+          mainViewWebApp.validateUrl(mainViewWebApp.homeUrl)
+        }
+
+    }
+
+    Button
+    {
+        id                  : cancelId
+
+        anchors.top         : okId.bottom
+        anchors.topMargin   : 10
+        anchors.left        : okId.left
+
+        text                : "Cancel"
+
+        onClicked   :
+        {
+          mainViewWebApp.cancel();
         }
 
     }
@@ -90,10 +113,5 @@ ZcAppConfigurationView
             focus            : true
         }
 
-    }
-
-    onLoaded :
-    {
-        homeUrl.text = mainView.dataFormConfiguration.getFieldValue("HomeUrl","")
     }
 }

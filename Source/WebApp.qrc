@@ -16,5 +16,6 @@
         <file>Resources/back.png</file>
         <file>Resources/next.png</file>
         <file>Resources/OpenExternal.png</file>
+        <file>Resources/crog.png</file>
     </qresource>
 </RCC>

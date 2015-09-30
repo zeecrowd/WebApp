@@ -42,6 +42,8 @@ Zc.AppView
     property string useWebView : ""
     property Item webAppView: web
 
+    property var _configuration : null
+
     anchors
     {
         top : parent.top
@@ -75,8 +77,32 @@ Zc.AppView
                 web.setUrl(mainUrl)
             }
         }
-    ]
+        ,
+        Action {
+            id: configAction
+            shortcut: "Ctrl+X"
+            //text: "Config"
+            iconSource: context.affiliation >= 3 ? "qrc:/WebApp/Resources/crog.png" : ""
+            tooltip : "Configuration"
+            enabled : context.affiliation >= 3
 
+            onTriggered:
+            {
+                if (mainView.application.configuration === undefined)
+                {
+                    _configuration = {};
+                    _configuration.homeUrl = "http://www.zeecrowd.com";
+                }
+                else
+                {
+                    _configuration = mainView.application.configuration;
+                }
+
+               webApplicationConfiguration.homeUrl =_configuration.homeUrl
+               webApplicationConfiguration.visible = true;
+            }
+        }
+    ]
 
     Zc.AppNotification
     {
@@ -111,6 +137,8 @@ Zc.AppView
     {
         if (Qt.platform.os !== "android")
                 inputMessage.setFocus();
+
+
     }
 
     Zc.CrowdActivity
@@ -120,7 +148,7 @@ Zc.AppView
 
         onStarted :
         {
-            mainView.mainUrl = mainView.context.applicationConfiguration.getProperty("HomeUrl","www.zeecrowd.com");
+            mainView.mainUrl = mainView.context.applicationConfiguration.homeUrl;
             if (web.isInitialized)
                 web.setUrl(mainView.mainUrl)
         }
@@ -319,4 +347,28 @@ onClosed :
 {
     activity.stop();
 }
+
+WebApplicationConfiguration
+{
+    id : webApplicationConfiguration
+    anchors.fill: parent
+    visible : false
+
+    onValidateUrl: {
+        visible : false
+        _configuration.homeUrl = url;
+        mainView.context.updateConfiguration(_configuration);
+        webApplicationConfiguration.visible = false
+
+        mainView.mainUrl = url;
+        web.setUrl(mainUrl);
+    }
+
+    onCancel: {
+        webApplicationConfiguration.visible = false
+        visible : false
+    }
+
+}
+
 }

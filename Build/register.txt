@@ -1,1 +1,1 @@
-<x xmlns='jabber:x:data'><title>WebApp</title><instructions>WebApp</instructions><field var='HomeUrl'><value>http://</value></field></x>
+@qtproject Thanks to QtQuick and Qt we have one code for all platforms for our RT secured collaborative software #Zeecrowd 
