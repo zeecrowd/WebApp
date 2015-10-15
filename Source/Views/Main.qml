@@ -148,13 +148,27 @@ Zc.AppView
 
         onStarted :
         {
+            console.log(">> onStarted mainView.context " + mainView.context )
+            console.log(">> onStarted mainView.context.applicationConfiguration " + mainView.context.applicationConfiguration )
+            console.log(">> onStarted mainView.context.strApplicationConfiguration " + mainView.context.strApplicationConfiguration )
+
             mainView.mainUrl = mainView.context.applicationConfiguration.homeUrl;
             if (web.isInitialized)
                 web.setUrl(mainView.mainUrl)
+
+
         }
 
         onContextChanged :
         {
+            console.log(">> onContextChanged mainView.context " + mainView.context )
+            console.log(">> onContextChanged mainView.context.applicationConfiguration " + mainView.context.applicationConfiguration )
+            console.log(">> onContextChanged mainView.context.strApplicationConfiguration " + mainView.context.strApplicationConfiguration )
+
+            mainView.mainUrl = mainView.context.applicationConfiguration.homeUrl;
+            if (web.isInitialized)
+                web.setUrl(mainView.mainUrl)
+
         }
 
         Zc.ChatMessageSender
@@ -320,24 +334,31 @@ onLoaded :
 
     var webViewVersion =  mainView.context.getQtModuleVersion("QtWebView") !== "";
     var webKitVersion =  mainView.context.getQtModuleVersion("QtWebKit") !== "";
-    mainView.useWebView = "";
+    mainView.useWebView = "WebView";
 
     if (Qt.platform.os === "windows")
     {
-        if (webViewVersion)
-            mainView.useWebView = "WebView"
-        else
-            mainView.useWebView = "WebKit"
+        mainView.useWebView = "WebKit"
     }
     else
     {
-        if (webViewVersion)
-        {
-            mainView.useWebView = "WebView"
-        }
-        else if (webKitVersion)
-            mainView.useWebView = "WebKit"
+         mainView.useWebView = "WebView"
     }
+
+        //if (webViewVersion)
+        //    mainView.useWebView = "WebView"
+        //else
+        //    mainView.useWebView = "WebKit"
+    //}
+    //else
+    //{
+     //   if (webViewVersion)
+      //  {
+       //     mainView.useWebView = "WebView"
+      //  }
+      //  else if (webKitVersion)
+        //    mainView.useWebView = "WebKit"
+    //}
 
     web.initialize();
     web.setUrl(mainUrl)
@@ -357,6 +378,7 @@ WebApplicationConfiguration
     onValidateUrl: {
         visible : false
         _configuration.homeUrl = url;
+
         mainView.context.updateConfiguration(_configuration);
         webApplicationConfiguration.visible = false
 
